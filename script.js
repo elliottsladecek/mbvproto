@@ -139,12 +139,13 @@
     }).join('');
   }
   function renderArticle(slug){
-    var el=document.getElementById('art-contenu');
-    if(!el)return;
+    var el=document.getElementById('art-contenu'),hd=document.getElementById('art-head');
+    if(!el||!hd)return;
     if(!ARTS){el.innerHTML='<p>Chargement…</p>';return;}
     var a=null;ARTS.forEach(function(x){if(x.lien===slug)a=x;});
-    if(!a){el.innerHTML='<h1>Article introuvable</h1><p>Cette nouvelle n’existe pas ou a été retirée.</p>';document.title='Article introuvable — '+NOM;return;}
-    el.innerHTML='<small>'+esc(a.categorie)+'</small><h1>'+esc(a.titre)+'</h1><time datetime="'+esc(a.date)+'">'+dateFr(a.date)+'</time>'+(a.image?'<img class="art-img" src="'+esc(a.image)+'" alt="">':'')+'<div class="art-body">'+corps(a.contenu)+'</div>';
+    if(!a){hd.innerHTML='<div><h1>Article introuvable</h1></div>';el.innerHTML='<p>Cette nouvelle n’existe pas ou a été retirée.</p>';document.title='Article introuvable — '+NOM;return;}
+    hd.innerHTML='<div><small>'+esc(a.categorie)+'</small><h1>'+esc(a.titre)+'</h1><time datetime="'+esc(a.date)+'">'+dateFr(a.date)+'</time></div>';
+    el.innerHTML=(a.image?'<img class="art-img" src="'+esc(a.image)+'" alt="">':'')+'<div class="art-body">'+corps(a.contenu)+'</div>';
     document.title=a.titre+' — '+NOM;
   }
   function trier(l){
