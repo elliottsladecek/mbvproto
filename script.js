@@ -155,9 +155,23 @@
     rendreNouvelles();
     if(courant&&courant.indexOf('actualite/')===0)renderArticle(courant.slice(10));
   }
+  // Liste des fichiers : lue directement dans le dépôt GitHub (aucune automatisation requise).
+  // Si ça échoue, on se rabat sur nouvelles/index.json.
+  function listeNoms(){
+    var h=location.hostname,m=/^([^.]+)\.github\.io$/.exec(h),api=Promise.reject();
+    if(m){
+      var seg=location.pathname.split('/')[1]||'';
+      var depot=(seg&&seg.indexOf('.')<0)?seg:h;
+      api=fetch('https://api.github.com/repos/'+m[1]+'/'+depot+'/contents/nouvelles')
+        .then(function(r){if(!r.ok)throw 0;return r.json();})
+        .then(function(l){return l.map(function(f){return f.name;}).filter(function(n){return /\.json$/.test(n)&&n!=='index.json';});});
+    }
+    return api.catch(function(){
+      return fetch('nouvelles/index.json',{cache:'no-cache'}).then(function(r){if(!r.ok)throw 0;return r.json();});
+    });
+  }
   if(window.fetch){
-    fetch('nouvelles/index.json',{cache:'no-cache'})
-      .then(function(r){if(!r.ok)throw 0;return r.json();})
+    listeNoms()
       .then(function(noms){
         return Promise.all(noms.map(function(n){
           return fetch('nouvelles/'+n,{cache:'no-cache'}).then(function(r){return r.json();}).catch(function(){return null;});
