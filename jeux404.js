@@ -1,5 +1,14 @@
 
 (function(){
+var LG=window.LG404={l:(function(){try{var l=localStorage.getItem('lang');if(l==='en'||l==='fr')return l}catch(e){}return 'fr'})()};
+var R4=[['Le décompte','The count'],['Le mot juste','The right word'],['Le serpent fleurdelisé','Fleur-de-lis snake'],['Le Salon bleu','The Blue Room'],['Le fleurdelisé','The Fleurdelisé'],['Le mot caché','Hidden word (in French)'],
+['Bravo !','Well done!'],['Fin de la partie','Game over'],['Fin du décompte','Count over'],['Majorité obtenue !','Majority won!'],['Perdu…','You lost…'],['Raté !','Missed!'],['Séance levée','Session adjourned'],['Annulé !','Cancelled!'],['Pupitre large !','Wide podium!'],
+['Bulletins comptés : ','Ballots counted: '],['Bulletins ','Ballots '],['Terminé en ','Finished in '],[' coups.',' moves.'],['Fleurs de lys ramassées : ','Fleurs-de-lis collected: '],['Fleurs ','Fleurs-de-lis '],['Tous les sièges sont tombés. Score : ','Every seat has fallen. Score: '],['Score : ','Score: '],['Colonnes franchies : ','Columns cleared: '],
+['Coups ','Moves '],[' · Paires ',' · Pairs '],['Essai ','Try '],['Il manque des lettres','Not enough letters'],['Ce mot n’existe pas','Not a word'],['Rejouer','Play again'],['Jouer','Play']];
+function T4(x){if(LG.l!=='en'||x==null)return x;x=String(x);var m;
+ if(m=/^Le mot était « (.*?) » : trouvé en (\d+) essais?\.$/.exec(x))return 'The word was “'+m[1]+'”: found in '+m[2]+' '+(m[2]==1?'try':'tries')+'.';
+ if(m=/^Le mot était « (.*?) »\.$/.exec(x))return 'The word was “'+m[1]+'”.';
+ for(var i=0;i<R4.length;i++){if(x.indexOf(R4[i][0])>-1){x=x.replace(R4[i][0],R4[i][1])}}return x}
 var W=360,H=480,INK='#1B2D4F',SOFT='#33427A',BLUE='#9DBBFF',PALE='#C6D5F7';
 var $=function(i){return document.getElementById(i)};
 var cv=$('cv'),ctx=cv.getContext('2d'),dpr=Math.min(2,window.devicePixelRatio||1);
@@ -12,7 +21,7 @@ function bg(a,b){var g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,a);g.a
 var FL=new Path2D('M0 -11 C4 -6 4 0 0 4 C-4 0 -4 -6 0 -11Z M-1 -2 C-6 -8 -12 -4 -9 2 C-8 5 -4 5 -2 3Z M1 -2 C6 -8 12 -4 9 2 C8 5 4 5 2 3Z M-5 3.5h10v2.5h-10Z M-3 6.5L0 11L3 6.5Z');
 var FLY=new Path2D('M185.5 0C140.475 49.6335 110.88 108.802 126.057 161.37C147.558 217.605 170.829 264.06 170.323 333.987H200.677C200.171 264.06 223.442 217.605 244.943 161.37C260.12 108.802 230.525 49.6335 185.5 0ZM149.328 333.987C148.317 266.505 120.239 214.671 77.2383 202.69C44.861 191.443 7.67769 223.229 1.60694 255.992C-6.23444 293.4 14.7602 323.229 61.5556 333.009C49.4141 313.938 56.4966 292.667 72.9382 285.576C101.268 273.84 123.781 298.29 124.034 333.987H149.328ZM221.672 333.987C222.683 266.505 250.761 214.671 293.762 202.69C326.139 191.443 363.322 223.229 369.393 255.992C377.234 293.4 356.24 323.229 309.444 333.009C321.586 313.938 314.503 292.667 298.062 285.576C269.732 273.84 247.219 298.29 246.966 333.987H221.672ZM87.6092 333.987H283.391V373.596H207.506C208.518 394.134 219.648 408.315 241.149 418.584C234.319 434.232 222.177 444.012 208.012 443.523C204.471 463.572 199.412 474.085 185.5 489C171.588 474.085 166.529 463.572 162.988 443.523C148.823 444.012 136.681 434.232 129.851 418.584C151.352 408.315 162.482 394.134 163.494 373.596H87.6092V333.987Z');
 var pops=[];
-function pop(x,y,s,c){pops.push({x:x,y:y,s:s,c:c||INK,t:0})}
+function pop(x,y,s,c){pops.push({x:x,y:y,s:T4(s),c:c||INK,t:0})}
 function drawPops(dt){for(var i=pops.length-1;i>=0;i--){var p=pops[i];p.t+=dt;if(p.t>1){pops.splice(i,1);continue}ctx.globalAlpha=1-p.t;txt(p.s,p.x,p.y-p.t*34,18,p.c);ctx.globalAlpha=1}}
 function ballot(x,y,w,h,rot,bad){ctx.save();ctx.translate(x,y);ctx.rotate(rot||0);var s=w/36;ctx.scale(s,s);var hh=h/s;
   rr(-18,-hh/2,36,hh,4);ctx.fillStyle=bad?SOFT:'#fff';ctx.fill();ctx.lineWidth=2;ctx.strokeStyle=INK;ctx.stroke();
@@ -36,7 +45,7 @@ var SK={
 function sk(n){var o=SK[n],a='',b='',i;for(i=0;i<o.f.length;i++){a+='<path d="'+o.f[i]+'"/>';b+='<path d="'+o.f[i]+'"/>'}for(i=0;i<o.l.length;i++){a+='<path d="'+o.l[i]+'" fill="none"/>';b+='<path d="'+o.l[i]+'" fill="none"/>'}
  return '<svg viewBox="0 0 48 48" aria-hidden="true" style="filter:url(#rough)"><g class="u" transform="translate(1.4 1) rotate(1.8 24 24)" fill="none">'+b+'</g><g class="m" fill="none">'+a+'</g></svg>'}
 var G=[],cur=null,last=0,hudTxt='';
-function hud(s){if(s!==hudTxt){hudTxt=s;$('gscore').textContent=s}}
+function hud(s){if(s!==hudTxt){hudTxt=s;$('gscore').textContent=T4(s)}}
 function pt(e){var r=cv.getBoundingClientRect();return {x:(e.clientX-r.left)*V.w/r.width+V.x,y:(e.clientY-r.top)*V.h/r.height+V.y}}
 
 var AC=null,muted=false;
@@ -64,7 +73,7 @@ function snd(n,x){switch(n){
  case'lose':[392,330,262,196].forEach(function(f,i){tone(f,.22,'sawtooth',.07,f*.9,i*.15)});tone(90,.5,'sine',.12,40,.55);break}}
 ['pointerdown','keydown','touchstart'].forEach(function(ev){window.addEventListener(ev,ac,{passive:true})});
 var ovT=0,dieT=0,dieWin=false,conf=[];
-function showOv(t,p,b){$('ovt').textContent=t;$('ovp').textContent=p;$('ovb').textContent=b;$('ov').hidden=false;setTimeout(function(){try{$('ovb').focus({preventScroll:true})}catch(e){}},30)}
+var lastOv=null;function showOv(t,p,b){lastOv=[t,p,b];$('ovt').textContent=T4(t);$('ovp').textContent=T4(p);$('ovb').textContent=T4(b);$('ov').hidden=false;setTimeout(function(){try{$('ovb').focus({preventScroll:true})}catch(e){}},30)}
 function over(t,p){cur.state='over';var win=/Bravo|Majorité/.test(t);snd(win?'win':'lose');dieT=0;dieWin=win;conf=[];
   if(win&&!cur.wd){for(var i=0;i<60;i++)conf.push({x:rnd(0,W),y:rnd(-200,0),v:rnd(90,220),r:rnd(3,6),c:pick([INK,BLUE,'#F5B83D','#fff',SOFT]),a:rnd(0,6.3)})}
   var st=$('stage');st.classList.remove('shk');void st.offsetWidth;if(!win||cur.wd)st.classList.add('shk');
@@ -73,7 +82,7 @@ function over(t,p){cur.state='over';var win=/Bravo|Majorité/.test(t);snd(win?'w
 function startGame(){snd('tick');clearTimeout(ovT);$('stage').classList.remove('shk');conf=[];cur.reset();cur.state='play';$('ov').hidden=true;pops=[];if(cur.build)cur.build()}
 function select(i){
   clearTimeout(ovT);$('stage').classList.remove('shk');conf=[];cur=G[i];setView(cur.view);var sy=$('sty');sy.hidden=!cur.styles;sy.innerHTML='';if(cur.styles)cur.styles.forEach(function(n,k){var b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-pressed',cur.st===k?'true':'false');b.addEventListener('click',function(){cur.st=k;[].forEach.call(sy.children,function(x,j){x.setAttribute('aria-pressed',j===k?'true':'false')})});sy.appendChild(b)});cur.state='ready';pops=[];
-  $('gname').textContent=cur.name;$('ghelp').textContent=cur.help;$('gleg').hidden=$('ovleg').hidden=!cur.wd;$('pad').hidden=!cur.pad;
+  $('gname').textContent=T4(cur.name);$('ghelp').textContent=cur.help;$('gleg').hidden=$('ovleg').hidden=!cur.wd;$('pad').hidden=!cur.pad;
   cv.style.display=(cur.mem||cur.wd)?'none':'block';$('mem').hidden=!cur.mem;$('wd').hidden=!cur.wd;
   cur.reset();if(cur.build)cur.build();
   hudTxt='';if(cur.mem||cur.wd){startGame()}else{$('ov').hidden=true;cur.state='ready'}
@@ -230,7 +239,7 @@ var VALID=new Set('ABATS ABBES ABCES ABIMA ABIME ABOIE ABOIS ABOLI ABORD ABOYA A
 function nrm(w){return w.normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase()}
 G.push({name:'Le mot caché',wd:true,help:'Devine le mot de 5 lettres en 6 essais. Tape au clavier ou sur celui de l’écran. Illimité : une nouvelle partie à chaque fois !',
 reset:function(){var w=WORDS[Math.floor(Math.random()*WORDS.length)];this.word=w;this.norm=nrm(w);this.rows=0;this.cur='';this.lock=false;this.keys={};this.tiles=[];this.kb={}},
-build:function(){var self=this,root=$('wd');root.innerHTML='';var bd=document.createElement('div');bd.className='wb';this.tiles=[];for(var i=0;i<30;i++){var t=document.createElement('div');t.className='wt';bd.appendChild(t);this.tiles.push(t)}root.appendChild(bd);var tz=document.createElement('div');tz.className='wtoast';tz.id='wtoast';tz.textContent='Ce mot n’existe pas';root.appendChild(tz);
+build:function(){var self=this,root=$('wd');root.innerHTML='';var bd=document.createElement('div');bd.className='wb';this.tiles=[];for(var i=0;i<30;i++){var t=document.createElement('div');t.className='wt';bd.appendChild(t);this.tiles.push(t)}root.appendChild(bd);var tz=document.createElement('div');tz.className='wtoast';tz.id='wtoast';tz.textContent=T4('Ce mot n’existe pas');root.appendChild(tz);
  var kb=document.createElement('div');kb.className='wk';[['A','Z','E','R','T','Y','U','I','O','P'],['Q','S','D','F','G','H','J','K','L','M'],['⏎','W','X','C','V','B','N','⌫']].forEach(function(row){var r=document.createElement('div');r.className='wr';row.forEach(function(k){var b=document.createElement('button');b.type='button';b.textContent=k;if(k==='⏎'||k==='⌫')b.className='wide';b.setAttribute('aria-label',k==='⏎'?'Valider':k==='⌫'?'Effacer':k);b.addEventListener('click',function(){self.press(k)});r.appendChild(b);self.kb[k]=b});kb.appendChild(r)});root.appendChild(kb);this.paint();hud('Essai 1/6')},
 onOver:function(win){var self=this,r=this.rows-1;if(win){for(var c=0;c<5;c++){(function(c){var t=self.tiles[r*5+c];t.style.animationDelay=(c*90)+'ms';t.classList.add('win')})(c)}}
  else{for(var q=0;q<30;q++){var t=this.tiles[q];t.style.animationDelay=((q%5)*60+Math.floor(q/5)*70)+'ms';t.classList.add('lose')}}},
@@ -247,7 +256,20 @@ submit:function(){var self=this;if(this.cur.length<5){hud('Il manque des lettres
  setTimeout(function(){self.lock=false;if(res.every(function(x){return x===2})){self.lock=true;over('Bravo !','Le mot était « '+self.word+' » : trouvé en '+self.rows+' essai'+(self.rows>1?'s':'')+'.')}
   else if(self.rows>=6){self.lock=true;over('Perdu…','Le mot était « '+self.word+' ».')}else hud('Essai '+(self.rows+1)+'/6')},5*170+450)}});
 
-select(Math.floor(Math.random()*G.length));requestAnimationFrame(loop);
+select(Math.floor(Math.random()*G.length));
+window.__ref404=function(){$('gname').textContent=T4(cur.name);var r=hudTxt;hudTxt='';hud(r);if(!$('ov').hidden&&lastOv)showOv(lastOv[0],lastOv[1],lastOv[2]);var tz=$('wtoast');if(tz)tz.textContent=T4('Ce mot n’existe pas')};requestAnimationFrame(loop);
 })();
 
 /*BURGER404*/(function(){var b=document.getElementById('burger'),n=document.getElementById('nav');if(!b||!n)return;b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false')})})();
+
+/*LANG404*/(function(){
+var D={'Accueil':'Home','La députée':'The MNA','Mon équipe':'My team','Actualité':'News','Ressources':'Resources','Contact':'Contact','Suivez-moi':'Follow me','Politique de confidentialité':'Privacy policy','Termes et conditions':'Terms and conditions','© 2026 Maïté Blanchette Vézina. Tous droits réservés.':'© 2026 Maïté Blanchette Vézina. All rights reserved.','Cette page n’existe pas.':'This page doesn’t exist.','L’adresse est peut-être erronée, ou la page a été déplacée.':'The address may be wrong, or the page may have been moved.','Retour à l’accueil':'Back to home','Page introuvable — Maïté Blanchette Vézina':'Page not found — Maïté Blanchette Vézina'};
+var sel='.nav a,.e404 h1,.e404>p:not(.n),#h,.f-links a,.f-bottom>span,footer h4 a';
+function apply(){var en=LG404.l==='en';document.documentElement.lang=en?'en':'fr';
+ [].forEach.call(document.querySelectorAll(sel),function(e){if(!e.hasAttribute('data-fr'))e.setAttribute('data-fr',e.textContent.trim());var f=e.getAttribute('data-fr');e.textContent=en&&D[f]?D[f]:f});
+ var lg=document.querySelector('.logo img');if(lg){if(!lg.hasAttribute('data-fr'))lg.setAttribute('data-fr',lg.alt);lg.alt=en?'Maïté Blanchette Vézina, MNA for La Peltrie':lg.getAttribute('data-fr')}
+ document.title=en?D['Page introuvable — Maïté Blanchette Vézina']:'Page introuvable — Maïté Blanchette Vézina';
+ [].forEach.call(document.querySelectorAll('.lang button'),function(b){b.setAttribute('aria-pressed',b.getAttribute('data-l')===LG404.l?'true':'false')});
+ if(window.__ref404)window.__ref404()}
+[].forEach.call(document.querySelectorAll('.lang button'),function(b){b.addEventListener('click',function(){var l=b.getAttribute('data-l');if(l===LG404.l)return;LG404.l=l;try{localStorage.setItem('lang',l)}catch(e){}apply()})});
+apply()})();
