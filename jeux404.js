@@ -267,7 +267,7 @@ var D={'Accueil':'Home','La députée':'The MNA','Mon équipe':'My team','Actual
 var sel='.nav a,.e404 h1,.e404>p:not(.n),#h,.f-links a,.f-bottom>span,footer h4 a';
 function apply(){var en=LG404.l==='en';document.documentElement.lang=en?'en':'fr';
  [].forEach.call(document.querySelectorAll(sel),function(e){if(!e.hasAttribute('data-fr'))e.setAttribute('data-fr',e.textContent.trim());var f=e.getAttribute('data-fr');e.textContent=en&&D[f]?D[f]:f});
- var lg=document.querySelector('.logo img');if(lg){if(!lg.hasAttribute('data-fr'))lg.setAttribute('data-fr',lg.alt);lg.alt=en?'Maïté Blanchette Vézina, MNA for La Peltrie':lg.getAttribute('data-fr')}
+ var lg=document.querySelector('.logo img');if(lg){lg.src=lg.src.replace(/logo-site(-en)?\.png/,en?'logo-site-en.png':'logo-site.png');if(!lg.hasAttribute('data-fr'))lg.setAttribute('data-fr',lg.alt);lg.alt=en?'Maïté Blanchette Vézina, MNA for La Peltrie':lg.getAttribute('data-fr')}
  document.title=en?D['Page introuvable — Maïté Blanchette Vézina']:'Page introuvable — Maïté Blanchette Vézina';
  [].forEach.call(document.querySelectorAll('.lang button'),function(b){b.setAttribute('aria-pressed',b.getAttribute('data-l')===LG404.l?'true':'false')});
  if(window.__ref404)window.__ref404()}

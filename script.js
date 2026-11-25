@@ -288,6 +288,7 @@
         el.setAttribute(at,v!=null?v:fr);
       });
     });
+    var lgi=document.querySelector('.logo img');if(lgi)lgi.setAttribute('src',LANG==='en'?'logo-site-en.png':'logo-site.png');
     document.documentElement.lang=LANG;
     document.querySelectorAll('.lang button').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-l')===LANG?'true':'false');});
   }
