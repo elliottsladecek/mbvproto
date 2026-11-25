@@ -402,3 +402,5 @@ div.cc:hover{transform:none!important;border-color:#D5DAE6!important}
   .post:hover,.help a:hover,.contact .info .cc:hover,.member:hover .ph,.bubble:hover{transform:none}
   .nav a:hover{color:inherit}
 }
+.fiche dd a{color:inherit;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.fiche dd a:hover,.fiche dd a:focus-visible{text-decoration-thickness:2px}

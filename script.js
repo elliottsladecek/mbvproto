@@ -8,7 +8,7 @@
     var em=m.getAttribute('data-email'),bu=m.getAttribute('data-bureau'),tl=m.getAttribute('data-tel');
     var dm=document.getElementById('fiche-mail'),dtl=document.getElementById('fiche-tel'),dbu=document.getElementById('fiche-bur');
     if(em){dm.innerHTML='';var am=document.createElement('a');am.href='mailto:'+em;am.textContent=em;dm.appendChild(am);}
-    if(bu){dbu.textContent=bu;}
+    if(bu){dbu.innerHTML='';var ab=document.createElement('a');ab.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(bu.replace(/,\s*(local|bureau)\s.*$/i,''));ab.target='_blank';ab.rel='noopener noreferrer';ab.textContent=bu;dbu.appendChild(ab);}
     document.getElementById('fiche-tel-t').hidden=dtl.hidden=!tl;if(tl)dtl.textContent=tl;
     var im=m.querySelector('img'),fp=fiche.querySelector('.ph');
     fp.classList.toggle('photo',!!im);
