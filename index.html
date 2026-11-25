@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
-(function(){var l=location;if(!/^https?:$/.test(l.protocol)||/claude/i.test(l.hostname))return;var b=l.pathname.replace(/index\.html$/,'').replace(/(?:depute|equipe|actualite|ressources|contact|confidentialite|conditions)(?:\/.*)?$/,'');if(b.charAt(b.length-1)!=='/')b+='/';window.CHEMINS=true;window.BASE=b;document.write('<base href="'+b+'">');})();
+(function(){var l=location;if(!/^https?:$/.test(l.protocol)||/claude/i.test(l.hostname))return;var b=l.pathname.replace(/index\.html$/,'').replace(/(?:en\/)?(?:accueil|home|depute|mna|equipe|team|actualite|news|ressources|resources|contact|confidentialite|privacy|conditions|terms)(?:\/.*)?$/,'').replace(/(?:^|\/)en\/?$/,'/');if(b.charAt(b.length-1)!=='/')b+='/';window.CHEMINS=true;window.BASE=b;document.write('<base href="'+b+'">');})();
 </script>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
