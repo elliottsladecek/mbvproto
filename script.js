@@ -5,6 +5,11 @@
     document.getElementById('fiche-nom').textContent=m.querySelector('b').textContent;
     document.getElementById('fiche-role').textContent=m.querySelector('span').textContent;
     document.getElementById('fiche-desc').textContent=m.getAttribute('data-desc')||'';
+    var em=m.getAttribute('data-email'),bu=m.getAttribute('data-bureau'),tl=m.getAttribute('data-tel');
+    var dm=document.getElementById('fiche-mail'),dtl=document.getElementById('fiche-tel'),dbu=document.getElementById('fiche-bur');
+    if(em){dm.innerHTML='';var am=document.createElement('a');am.href='mailto:'+em;am.textContent=em;dm.appendChild(am);}
+    if(bu){dbu.textContent=bu;}
+    document.getElementById('fiche-tel-t').hidden=dtl.hidden=!tl;if(tl)dtl.textContent=tl;
     var im=m.querySelector('img'),fp=fiche.querySelector('.ph');
     fp.classList.toggle('photo',!!im);
     fp.innerHTML=im?'<img src="'+im.getAttribute('src')+'" alt="" style="object-position:'+im.style.objectPosition+'">':'[PHOTO]';
